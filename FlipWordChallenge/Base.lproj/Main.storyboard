@@ -21,10 +21,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5z8-cP-b1f">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5z8-cP-b1f">
                                 <rect key="frame" x="0.0" y="146" width="375" height="375"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="375" id="2Z7-md-YqB"/>
+                                    <constraint firstAttribute="width" constant="375" id="3B6-U0-mZ3"/>
+                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="mMK-bF-xVa">
                                     <size key="itemSize" width="175" height="175"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -32,19 +35,43 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="buttonCell" id="v3c-p6-YFI">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="buttonCell" id="v3c-p6-YFI" customClass="ButtonCollectionViewCell" customModule="FlipWordChallenge" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="175" height="175"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                             <rect key="frame" x="0.0" y="0.0" width="175" height="175"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Cre-sO-U2r" customClass="SwitchButton" customModule="FlipWordChallenge" customModuleProvider="target">
+                                                    <rect key="frame" x="8" y="8" width="159" height="159"/>
+                                                    <connections>
+                                                        <action selector="onTap:" destination="v3c-p6-YFI" eventType="touchUpInside" id="8Az-Ih-40F"/>
+                                                        <action selector="onTapDown:" destination="v3c-p6-YFI" eventType="touchDown" id="rvI-jG-jpq"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
                                         </view>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="Cre-sO-U2r" firstAttribute="leading" secondItem="v3c-p6-YFI" secondAttribute="leading" constant="8" id="D1E-At-Em4"/>
+                                            <constraint firstAttribute="bottom" secondItem="Cre-sO-U2r" secondAttribute="bottom" constant="8" id="Ge6-Ht-UBO"/>
+                                            <constraint firstItem="Cre-sO-U2r" firstAttribute="top" secondItem="v3c-p6-YFI" secondAttribute="top" constant="8" id="peb-vp-zjQ"/>
+                                            <constraint firstAttribute="trailing" secondItem="Cre-sO-U2r" secondAttribute="trailing" constant="8" id="yoD-nf-UVT"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="button" destination="Cre-sO-U2r" id="9a9-Nw-Pyb"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="5z8-cP-b1f" secondAttribute="trailing" id="S4t-TR-ehH"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="5z8-cP-b1f" secondAttribute="bottom" constant="146" id="bXb-I5-rs1"/>
+                            <constraint firstItem="5z8-cP-b1f" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="hWc-4k-mwl"/>
+                            <constraint firstItem="5z8-cP-b1f" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="126" id="viN-sQ-9RO"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="collectionView" destination="5z8-cP-b1f" id="vsD-aE-cz1"/>

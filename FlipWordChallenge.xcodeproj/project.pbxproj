@@ -13,6 +13,8 @@
 		4626D4B41E93265F00A69F62 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4626D4B31E93265F00A69F62 /* Assets.xcassets */; };
 		4626D4B71E93265F00A69F62 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4626D4B51E93265F00A69F62 /* LaunchScreen.storyboard */; };
 		4626D4C01E9339B500A69F62 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4626D4BF1E9339B500A69F62 /* GameViewController.swift */; };
+		46F8B5D11E935943007F6908 /* ButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8B5D01E935943007F6908 /* ButtonCollectionViewCell.swift */; };
+		46F8B5D41E935965007F6908 /* SwitchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8B5D31E935965007F6908 /* SwitchButton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +26,8 @@
 		4626D4B61E93265F00A69F62 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4626D4B81E93265F00A69F62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4626D4BF1E9339B500A69F62 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		46F8B5D01E935943007F6908 /* ButtonCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonCollectionViewCell.swift; sourceTree = "<group>"; };
+		46F8B5D31E935965007F6908 /* SwitchButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +60,7 @@
 		4626D4A81E93265F00A69F62 /* FlipWordChallenge */ = {
 			isa = PBXGroup;
 			children = (
+				46F8B5D21E935948007F6908 /* Views */,
 				4626D4BE1E93398900A69F62 /* View Controllers */,
 				4626D4A91E93265F00A69F62 /* AppDelegate.swift */,
 				4626D4AD1E93265F00A69F62 /* Main.storyboard */,
@@ -73,6 +78,15 @@
 				4626D4BF1E9339B500A69F62 /* GameViewController.swift */,
 			);
 			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		46F8B5D21E935948007F6908 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				46F8B5D01E935943007F6908 /* ButtonCollectionViewCell.swift */,
+				46F8B5D31E935965007F6908 /* SwitchButton.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -148,6 +162,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46F8B5D11E935943007F6908 /* ButtonCollectionViewCell.swift in Sources */,
+				46F8B5D41E935965007F6908 /* SwitchButton.swift in Sources */,
 				4626D4AA1E93265F00A69F62 /* AppDelegate.swift in Sources */,
 				4626D4C01E9339B500A69F62 /* GameViewController.swift in Sources */,
 				4626D4B21E93265F00A69F62 /* FlipWordChallenge.xcdatamodeld in Sources */,
@@ -312,6 +328,7 @@
 				4626D4BD1E93265F00A69F62 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 

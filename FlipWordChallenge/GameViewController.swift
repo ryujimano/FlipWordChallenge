@@ -8,11 +8,17 @@
 
 import UIKit
 
-class GameViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class GameViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, SwitchButtonDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
-    var cellCount = 5
+    var cellCount = 4
+    var associatedCount = 1
+    
+    var buttons: [SwitchButton] = []
+    
+    var onColor: UIImage!
+    var offColor: UIImage!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +28,25 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         
         flowLayout.minimumLineSpacing = 5
         flowLayout.minimumInteritemSpacing = 5
+        
+        for _ in 0 ..< cellCount {
+            buttons.append(SwitchButton())
+        }
+        
+        var k = 0
+        for i in 0 ..< cellCount {
+            var switchButtons: [Int : SwitchButton] = [:]
+            k = 0
+            while k < associatedCount {
+                let j = Int(arc4random_uniform(UInt32(cellCount)))
+                if j != i && switchButtons[j] == nil {
+                    switchButtons[j] = buttons[j]
+                    k += 1
+                }
+            }
+            buttons[i].switchButtons = switchButtons
+        }
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -53,10 +78,33 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "buttonCell", for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "buttonCell", for: indexPath) as! ButtonCollectionViewCell
         
         cell.layer.cornerRadius = 5
         cell.clipsToBounds = true
+        
+        if indexPath.section == 0 {
+            let button = buttons[indexPath.item]
+            if button.onOff {
+                cell.button.backgroundColor = .green
+            }
+            else {
+                cell.button.backgroundColor = .red
+            }
+            cell.button.tag = indexPath.item
+        }
+        else {
+            let button = buttons[(3 * (cellCount / 3)) + indexPath.item]
+            if button.onOff {
+                cell.button.backgroundColor = .green
+            }
+            else {
+                cell.button.backgroundColor = .red
+            }
+            cell.button.tag = (3 * (cellCount / 3)) + indexPath.item
+        }
+ 
+        cell.delegate = self
         
         return cell
     }
@@ -71,7 +119,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         let rowCount = cellCount > 4 ? 3 : 2
         
-        let verticalCount = cellCount / 6 >= 1 ? 3 : 2
+        let verticalCount = ((cellCount - 1) / 6) >= 1 ? 3 : 2
         let totalCellHeight = verticalCount * (rowCount > 2 ? 120 : 175)
         let totalHeightSpacingWidth = 5 * (verticalCount - 1)
         
@@ -85,7 +133,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
             let leftInset = (collectionView.bounds.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
             let rightInset = leftInset
             
-            return UIEdgeInsets(top: topInset, left: leftInset, bottom: 5, right: rightInset)
+            return UIEdgeInsets(top: topInset, left: leftInset, bottom: (cellCount == 4 || cellCount % 3 == 0) ? bottomInset : 5, right: rightInset)
         }
         else {
             let rowCount2 = cellCount % 3
@@ -99,6 +147,19 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
             return UIEdgeInsets(top: 0, left: leftInset, bottom: bottomInset, right: rightInset)
         }
     }
+    
+    func onButtonTapped(sender: SwitchButton) {
+        for i in 0 ..< cellCount {
+            if i == sender.tag {
+                buttons[i].onOff = !buttons[i].onOff
+                for (idx, _) in buttons[i].switchButtons {
+                    buttons[idx].onOff = !buttons[idx].onOff
+                }
+                break
+            }
+        }
+        collectionView.reloadData()
+    }
 
     /*
     // MARK: - Navigation
@@ -109,5 +170,20 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         // Pass the selected object to the new view controller.
     }
     */
+    
+    func imageWithColor(color: UIColor) -> UIImage {
+        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
+        UIGraphicsBeginImageContext(rect.size)
+        let context = UIGraphicsGetCurrentContext()
+        
+        context?.setFillColor(color.cgColor)
+        context?.fill(rect)
+        
+        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return colorImage!
+    }
 
 }
+
