@@ -13,17 +13,18 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     @IBOutlet weak var quitButton: UIButton!
     
-    var cellCount = 9
-    var associatedCount = 2
+    //the amount of buttons
+    var cellCount = 4
+    //the amount of associated buttons to each button
+    var associatedCount = 1
     
+    //array of buttons
     var buttons: [SwitchButton] = []
-    
-    var onColor: UIImage!
-    var offColor: UIImage!
     
     @IBOutlet weak var finishedView: UIView!
     
 
+    //MARK: View Setup
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -33,15 +34,18 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         flowLayout.minimumLineSpacing = 5
         flowLayout.minimumInteritemSpacing = 5
         
+        //initialize new buttons
         for _ in 0 ..< cellCount {
             buttons.append(SwitchButton())
         }
         
+        //set buttons to be associated to each button
         var k = 0
         for i in 0 ..< cellCount {
             var switchButtons: [Int : SwitchButton] = [:]
             k = 0
             while k < associatedCount {
+                //choose a random button to associate to ith button
                 let j = Int(arc4random_uniform(UInt32(cellCount)))
                 if j != i && switchButtons[j] == nil {
                     switchButtons[j] = buttons[j]
@@ -61,7 +65,11 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
+    //MARK: CollectionView
     func numberOfSections(in collectionView: UICollectionView) -> Int {
+        //split into 2 sections if jagged
         if cellCount == 4 || cellCount % 3 == 0 {
             return 1
         }
@@ -71,6 +79,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        //set first section to have 2 or 3 buttons per row
         if section == 0 {
             if cellCount == 4 || cellCount % 3 == 0 {
                 return cellCount
@@ -79,6 +88,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
                 return (cellCount / 3) * 3
             }
         }
+        //set second section to have the remaining buttons
         else {
             return cellCount % 3
         }
@@ -90,6 +100,8 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         cell.layer.cornerRadius = 5
         cell.clipsToBounds = true
         
+        //set the color to green if the button is on
+        //set the color to red if the button is off
         if indexPath.section == 0 {
             let button = buttons[indexPath.item]
             if button.onOff {
@@ -111,15 +123,21 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
             cell.button.tag = (3 * (cellCount / 3)) + indexPath.item
         }
  
+        //set the SwitchButtonDelegate to this view controller
         cell.delegate = self
         
         return cell
     }
     
+    
+    
+    //MARK: CollectionView Layout Configuration
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        //set layout to 2 buttons per row
         if cellCount > 4 {
             return CGSize(width: 120, height: 120)
         }
+        //otherwise set layout to 3 buttons per row
         return CGSize(width: 175, height: 175)
     }
     
@@ -130,6 +148,7 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let totalCellHeight = verticalCount * (rowCount > 2 ? 120 : 175)
         let totalHeightSpacingWidth = 5 * (verticalCount - 1)
         
+        //top and bottom insets calculated to center buttons in CollectionView
         let topInset = (collectionView.bounds.height - CGFloat(totalCellHeight + totalHeightSpacingWidth)) / 2
         let bottomInset = topInset
         
@@ -137,9 +156,11 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
             let totalCellWidth = rowCount * (rowCount > 2 ? 120 : 175)
             let totalSpacingWidth = 5 * (rowCount - 1)
             
+            //left and right insets calculated to center buttons in CollectionView
             let leftInset = (collectionView.bounds.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
             let rightInset = leftInset
             
+            //return appropriate insets to center this section
             return UIEdgeInsets(top: topInset, left: leftInset, bottom: (cellCount == 4 || cellCount % 3 == 0) ? bottomInset : 5, right: rightInset)
         }
         else {
@@ -147,30 +168,45 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
             let totalCellWidth = rowCount2 * 120
             let totalSpacingWidth = 5 * (rowCount2 - 1)
             
+            //left and right insets calculated to center buttons in CollectionView
             let leftInset = (collectionView.bounds.width - CGFloat(totalCellWidth + totalSpacingWidth)) / 2
             let rightInset = leftInset
             
-            
+            //return appropriate insets to center this section
             return UIEdgeInsets(top: 0, left: leftInset, bottom: bottomInset, right: rightInset)
         }
     }
     
+    
+    
+    //MARK: Switch Button Action
     func onButtonTapped(sender: UIButton) {
+        //check if the game is finished
         var isFinished = true
+        
+        //turn corresponding buttons on/off
         for i in 0 ..< cellCount {
             if i == sender.tag {
+                //if ith button is tapped, turn on/off
                 buttons[i].onOff = !buttons[i].onOff
+                
                 for (idx, _) in buttons[i].switchButtons {
+                    //turn associated button on/off
                     buttons[idx].onOff = !buttons[idx].onOff
                 }
             }
-            
-            if !buttons[i].onOff {
+        }
+        //reload the CollectionView
+        collectionView.reloadData()
+        
+        //check each button to see if the game is finished
+        for i in 0 ..< cellCount {
+            if buttons[i].onOff {
                 isFinished = false
             }
         }
-        collectionView.reloadData()
         
+        //if the game is finished, change the view to the "congratulations" view
         if isFinished {
             UIView.animate(withDuration: 0.8, animations: {
                 self.view.backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.6)
@@ -186,36 +222,20 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
 
+    
+    
+    //MARK: PlayAgainButton Action
     @IBAction func playAgainTapped(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        //go back to initial View Controller when tapped
+        dismiss(animated: false, completion: nil)
     }
     
+    
+    //MARK: QuitButton Action
     @IBAction func quitTapped(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+        //go back to initial View Controller when tapped
+        dismiss(animated: false, completion: nil)
     }
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
-    func imageWithColor(color: UIColor) -> UIImage {
-        let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
-        UIGraphicsBeginImageContext(rect.size)
-        let context = UIGraphicsGetCurrentContext()
-        
-        context?.setFillColor(color.cgColor)
-        context?.fill(rect)
-        
-        let colorImage = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        return colorImage!
-    }
-
 }
 

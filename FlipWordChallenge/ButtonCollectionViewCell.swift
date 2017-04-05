@@ -8,12 +8,16 @@
 
 import UIKit
 
+
+//Protocol for button delegate
 protocol SwitchButtonDelegate: class {
     func onButtonTapped(sender: UIButton)
 }
 
 class ButtonCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var button: UIButton!
+    
+    //delegate for each switch button
     weak var delegate: SwitchButtonDelegate!
     
     override func awakeFromNib() {
@@ -21,11 +25,8 @@ class ButtonCollectionViewCell: UICollectionViewCell {
         button.clipsToBounds = true
     }
     
-    
-    @IBAction func onTap(_ sender: Any) {
-    }
-    
     @IBAction func onTapDown(_ sender: Any) {
+        //when a button is tapped, call delegate function
         delegate.onButtonTapped(sender: button)
     }
 }

@@ -10,8 +10,12 @@ import UIKit
 
 class GameStartViewController: UIViewController {
     
+    //amount of buttons
     var buttonAmount: Int = 4
+    
+    //possible amount of associated buttons
     var possibleAssociatedAmount: Int = 4
+    //amount of associated buttons for each button
     var associatedAmount: Int = 1
     
     @IBOutlet weak var buttonAmountLabel: UILabel!
@@ -22,6 +26,8 @@ class GameStartViewController: UIViewController {
 
     @IBOutlet weak var startButton: UIButton!
     
+    
+    //MARK: View Setup
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
         
@@ -31,9 +37,11 @@ class GameStartViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        //set the sliders' values to the initial value
         buttonSlider.value = 0
         associatedSlider.value = 0
         
+        //constrain the possible amount of associated buttons allowed
         possibleAssociatedAmount = (buttonAmount / 2) - 1
     }
 
@@ -42,6 +50,9 @@ class GameStartViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
     
+    
+    
+    //MARK: ButtonSlider Action
     @IBAction func onButtonSlider(_ sender: Any) {
         let slider = sender as! UISlider
         
@@ -52,6 +63,7 @@ class GameStartViewController: UIViewController {
         var val = Float(diff > 0.5 ? Float(intValue + 1) : Float(intValue))
         val.divide(by: 5.0)
         
+        //"stick" the slider to "nice" values at calculated positions
         if -0.1 > val - slider.value {
             val = val - 0.2
         }
@@ -60,9 +72,12 @@ class GameStartViewController: UIViewController {
         }
         slider.setValue(val, animated: false)
         
+        
+        //set the amount of buttons from user input
         buttonAmount = Int(val * 5) + 4
         buttonAmountLabel.text = "\(buttonAmount)"
         
+        //constrain the possible amount of associated buttons allowed
         possibleAssociatedAmount = (buttonAmount / 2) - 1
     }
     
@@ -78,6 +93,7 @@ class GameStartViewController: UIViewController {
         
         let div = Float(1.0).divided(by: Float(possibleAssociatedAmount))
         
+        //"stick" the slider to "nice" values at calculated positions
         if -(div / 2) > val - slider.value {
             val = val - div
         }
@@ -86,16 +102,19 @@ class GameStartViewController: UIViewController {
         }
         slider.setValue(val, animated: false)
         
+        //set the amount of associated buttons from user input
         associatedAmount = Int(val * Float(possibleAssociatedAmount)) + 1
         associatedAmountLabel.text = "\(associatedAmount)"
     }
 
     
+    
+    
     // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         let destination = segue.destination as! GameViewController
+        
+        //set the button amount and associated button amount in the GameViewController
         destination.cellCount = buttonAmount
         destination.associatedCount = associatedAmount
     }
