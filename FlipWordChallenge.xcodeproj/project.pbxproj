@@ -15,6 +15,7 @@
 		4626D4C01E9339B500A69F62 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4626D4BF1E9339B500A69F62 /* GameViewController.swift */; };
 		46F8B5D11E935943007F6908 /* ButtonCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8B5D01E935943007F6908 /* ButtonCollectionViewCell.swift */; };
 		46F8B5D41E935965007F6908 /* SwitchButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46F8B5D31E935965007F6908 /* SwitchButton.swift */; };
+		46FABD521E945A4C005DD416 /* GameStartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46FABD511E945A4C005DD416 /* GameStartViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		4626D4BF1E9339B500A69F62 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		46F8B5D01E935943007F6908 /* ButtonCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ButtonCollectionViewCell.swift; sourceTree = "<group>"; };
 		46F8B5D31E935965007F6908 /* SwitchButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwitchButton.swift; sourceTree = "<group>"; };
+		46FABD511E945A4C005DD416 /* GameStartViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameStartViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				4626D4BF1E9339B500A69F62 /* GameViewController.swift */,
+				46FABD511E945A4C005DD416 /* GameStartViewController.swift */,
 			);
 			name = "View Controllers";
 			sourceTree = "<group>";
@@ -165,6 +168,7 @@
 				46F8B5D11E935943007F6908 /* ButtonCollectionViewCell.swift in Sources */,
 				46F8B5D41E935965007F6908 /* SwitchButton.swift in Sources */,
 				4626D4AA1E93265F00A69F62 /* AppDelegate.swift in Sources */,
+				46FABD521E945A4C005DD416 /* GameStartViewController.swift in Sources */,
 				4626D4C01E9339B500A69F62 /* GameViewController.swift in Sources */,
 				4626D4B21E93265F00A69F62 /* FlipWordChallenge.xcdatamodeld in Sources */,
 			);

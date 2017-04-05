@@ -11,14 +11,18 @@ import UIKit
 class GameViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, SwitchButtonDelegate {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
+    @IBOutlet weak var quitButton: UIButton!
     
-    var cellCount = 4
-    var associatedCount = 1
+    var cellCount = 9
+    var associatedCount = 2
     
     var buttons: [SwitchButton] = []
     
     var onColor: UIImage!
     var offColor: UIImage!
+    
+    @IBOutlet weak var finishedView: UIView!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,6 +50,9 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
             }
             buttons[i].switchButtons = switchButtons
         }
+        
+        finishedView.alpha = 0
+        finishedView.isUserInteractionEnabled = false
         
     }
 
@@ -148,19 +155,44 @@ class GameViewController: UIViewController, UICollectionViewDelegate, UICollecti
         }
     }
     
-    func onButtonTapped(sender: SwitchButton) {
+    func onButtonTapped(sender: UIButton) {
+        var isFinished = true
         for i in 0 ..< cellCount {
             if i == sender.tag {
                 buttons[i].onOff = !buttons[i].onOff
                 for (idx, _) in buttons[i].switchButtons {
                     buttons[idx].onOff = !buttons[idx].onOff
                 }
-                break
+            }
+            
+            if !buttons[i].onOff {
+                isFinished = false
             }
         }
         collectionView.reloadData()
+        
+        if isFinished {
+            UIView.animate(withDuration: 0.8, animations: {
+                self.view.backgroundColor = UIColor(red: 0, green: 1, blue: 0, alpha: 0.6)
+                
+                self.collectionView.alpha = 0
+                self.collectionView.isUserInteractionEnabled = false
+                self.quitButton.alpha = 0
+                self.quitButton.isUserInteractionEnabled = false
+                
+                self.finishedView.alpha = 1
+                self.finishedView.isUserInteractionEnabled = true
+            })
+        }
     }
 
+    @IBAction func playAgainTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @IBAction func quitTapped(_ sender: Any) {
+        dismiss(animated: true, completion: nil)
+    }
     /*
     // MARK: - Navigation
 

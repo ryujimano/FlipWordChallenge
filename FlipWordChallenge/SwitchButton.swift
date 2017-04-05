@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SwitchButton: UIButton {
+class SwitchButton: NSObject {
     
     var onOff: Bool = true
     var switchButtons: [Int : SwitchButton]!

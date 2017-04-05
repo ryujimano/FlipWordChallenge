@@ -9,11 +9,11 @@
 import UIKit
 
 protocol SwitchButtonDelegate: class {
-    func onButtonTapped(sender: SwitchButton)
+    func onButtonTapped(sender: UIButton)
 }
 
 class ButtonCollectionViewCell: UICollectionViewCell {
-    @IBOutlet weak var button: SwitchButton!
+    @IBOutlet weak var button: UIButton!
     weak var delegate: SwitchButtonDelegate!
     
     override func awakeFromNib() {
